@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using UdlaBlog.WebAPI.Local.Dominio.DTOs;
 
 namespace UdlaBlog.WebAPI.Local.DTOs
 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using UdlaBlog.WebAPI.Local.Dominio.Models;
 
 namespace UdlaBlog.WebAPI.Local.Domain.Models
 {
