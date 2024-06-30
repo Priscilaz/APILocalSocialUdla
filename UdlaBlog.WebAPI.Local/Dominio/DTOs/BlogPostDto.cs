@@ -34,8 +34,8 @@ namespace UdlaBlog.WebAPI.Local.DTOs
         [Required]
         public bool Visible { get; set; }
 
-        public IFormFile ImagenDestacada { get; set; } // Para subir la imagen
+        public IFormFile ImagenDestacada { get; set; } 
 
-        public ICollection<CommentDto> Comments { get; set; } // Colección de comentarios
+        public ICollection<CommentDto> Comments { get; set; } 
     }
 }

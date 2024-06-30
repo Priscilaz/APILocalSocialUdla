@@ -36,8 +36,8 @@ namespace UdlaBlog.WebAPI.Local.Domain.Models
         [Required]
         public ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>(); // Colección de comentarios
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>(); 
 
-        public string RutaImagen { get; set; } // Ruta de la imagen almacenada
+        public string RutaImagen { get; set; } 
     }
 }
