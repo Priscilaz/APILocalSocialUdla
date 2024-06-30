@@ -1,6 +1,16 @@
-﻿namespace UdlaBlog.WebAPI.Local.Dominio.Interfaces
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UdlaBlog.WebAPI.Local.Domain.Models;
+
+namespace UdlaBlog.WebAPI.Local.Domain.Interfaces
 {
-    public class ICommentRepository
+    public interface ICommentRepository
     {
+        Task<Comment> GetByIdAsync(Guid id);
+        Task<IEnumerable<Comment>> GetAllByBlogPostIdAsync(Guid blogPostId);
+        Task AddAsync(Comment comment);
+        Task UpdateAsync(Comment comment);
+        Task DeleteAsync(Guid id);
     }
 }
