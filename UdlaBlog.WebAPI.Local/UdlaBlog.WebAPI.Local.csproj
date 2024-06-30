@@ -11,8 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dominio\Interfaces\" />
-    <Folder Include="Dominio\Models\" />
     <Folder Include="Dominio\DTOs\" />
     <Folder Include="Infrastructure\Data\" />
     <Folder Include="Infrastructure\Context\" />
