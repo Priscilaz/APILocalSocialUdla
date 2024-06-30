@@ -1,0 +1,6 @@
+@UdlaBlog.WebAPI.Local_HostAddress = http://localhost:5225
+
+GET {{UdlaBlog.WebAPI.Local_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
