@@ -25,7 +25,8 @@ namespace UdlaBlog.WebAPI.Local.Migrations
                     FechaPublicacion = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Autor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Visible = table.Column<bool>(type: "bit", nullable: false),
-                    RutaImagen = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    RutaImagen = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Section = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

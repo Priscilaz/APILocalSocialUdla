@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using UdlaBlog.WebAPI.Local.Domain.Interfaces;
 using UdlaBlog.WebAPI.Local.Domain.Models;
 using UdlaBlog.WebAPI.Local.Infrastructure.Data.Context;
-using UdlaBlog.WebAPI.Local.Domain.Models;
 
 namespace UdlaBlog.WebAPI.Local.Infrastructure.Data.Repositories
 {
@@ -23,9 +22,19 @@ namespace UdlaBlog.WebAPI.Local.Infrastructure.Data.Repositories
             return await _context.BlogPosts.Include(b => b.Tags).Include(b => b.Comments).FirstOrDefaultAsync(b => b.Id == id);
         }
 
+        public async Task<BlogPost> GetByIdAndSectionAsync(Guid id, string section)
+        {
+            return await _context.BlogPosts.Include(b => b.Tags).Include(b => b.Comments).FirstOrDefaultAsync(b => b.Id == id && b.Section == section);
+        }
+
         public async Task<IEnumerable<BlogPost>> GetAllAsync()
         {
             return await _context.BlogPosts.Include(b => b.Tags).Include(b => b.Comments).ToListAsync();
+        }
+
+        public async Task<IEnumerable<BlogPost>> GetBySectionAsync(string section)
+        {
+            return await _context.BlogPosts.Include(b => b.Tags).Include(b => b.Comments).Where(b => b.Section == section).ToListAsync();
         }
 
         public async Task AddAsync(BlogPost blogPost)

@@ -22,22 +22,7 @@ namespace UdlaBlog.WebAPI.Local.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BlogPostTag", b =>
-                {
-                    b.Property<Guid>("BlogPostsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TagsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("BlogPostsId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("BlogPostTag");
-                });
-
-            modelBuilder.Entity("UdlaBlog.WebAPI.Local.Domain.Models.BlogPost", b =>
+            modelBuilder.Entity("BlogPost", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,6 +55,10 @@ namespace UdlaBlog.WebAPI.Local.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Section")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TituloPagina")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -84,6 +73,21 @@ namespace UdlaBlog.WebAPI.Local.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BlogPosts");
+                });
+
+            modelBuilder.Entity("BlogPostTag", b =>
+                {
+                    b.Property<Guid>("BlogPostsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TagsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("BlogPostsId", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("BlogPostTag");
                 });
 
             modelBuilder.Entity("UdlaBlog.WebAPI.Local.Domain.Models.Comment", b =>
@@ -156,7 +160,7 @@ namespace UdlaBlog.WebAPI.Local.Migrations
 
             modelBuilder.Entity("BlogPostTag", b =>
                 {
-                    b.HasOne("UdlaBlog.WebAPI.Local.Domain.Models.BlogPost", null)
+                    b.HasOne("BlogPost", null)
                         .WithMany()
                         .HasForeignKey("BlogPostsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -171,7 +175,7 @@ namespace UdlaBlog.WebAPI.Local.Migrations
 
             modelBuilder.Entity("UdlaBlog.WebAPI.Local.Domain.Models.Comment", b =>
                 {
-                    b.HasOne("UdlaBlog.WebAPI.Local.Domain.Models.BlogPost", "BlogPost")
+                    b.HasOne("BlogPost", "BlogPost")
                         .WithMany("Comments")
                         .HasForeignKey("BlogPostId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -180,7 +184,7 @@ namespace UdlaBlog.WebAPI.Local.Migrations
                     b.Navigation("BlogPost");
                 });
 
-            modelBuilder.Entity("UdlaBlog.WebAPI.Local.Domain.Models.BlogPost", b =>
+            modelBuilder.Entity("BlogPost", b =>
                 {
                     b.Navigation("Comments");
                 });
