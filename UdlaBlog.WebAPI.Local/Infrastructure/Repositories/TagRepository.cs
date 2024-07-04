@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using UdlaBlog.WebAPI.Local.Domain.Interfaces;
-using UdlaBlog.WebAPI.Local.Domain.Models;
-using UdlaBlog.WebAPI.Local.Infrastructure.Data.Context;
+using UdlaBlog.Domain.Entities;
+using UdlaBlog.Domain.Interfaces;
+using UdlaBlog.Infrastructure.Data;
 
-namespace UdlaBlog.WebAPI.Local.Infrastructure.Data.Repositories
+namespace UdlaBlog.Infrastructure.Repositories
 {
     public class TagRepository : ITagRepository
     {
@@ -19,32 +19,32 @@ namespace UdlaBlog.WebAPI.Local.Infrastructure.Data.Repositories
 
         public async Task<Tag> GetByIdAsync(Guid id)
         {
-            return await _context.Tags.Include(t => t.BlogPosts).FirstOrDefaultAsync(t => t.Id == id);
+            return await _context.Tags.FindAsync(id);
         }
 
         public async Task<IEnumerable<Tag>> GetAllAsync()
         {
-            return await _context.Tags.Include(t => t.BlogPosts).ToListAsync();
+            return await _context.Tags.ToListAsync();
         }
 
-        public async Task AddAsync(Tag tag)
+        public async Task AddAsync(Tag entity)
         {
-            await _context.Tags.AddAsync(tag);
+            await _context.Tags.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Tag tag)
+        public async Task UpdateAsync(Tag entity)
         {
-            _context.Tags.Update(tag);
+            _context.Tags.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var tag = await _context.Tags.FindAsync(id);
-            if (tag != null)
+            var entity = await _context.Tags.FindAsync(id);
+            if (entity != null)
             {
-                _context.Tags.Remove(tag);
+                _context.Tags.Remove(entity);
                 await _context.SaveChangesAsync();
             }
         }

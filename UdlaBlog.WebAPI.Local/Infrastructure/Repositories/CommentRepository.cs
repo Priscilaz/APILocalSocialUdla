@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using UdlaBlog.WebAPI.Local.Domain.Interfaces;
-using UdlaBlog.WebAPI.Local.Domain.Models;
-using UdlaBlog.WebAPI.Local.Infrastructure.Data.Context;
+using UdlaBlog.Domain.Entities;
+using UdlaBlog.Domain.Interfaces;
+using UdlaBlog.Infrastructure.Data;
 
-namespace UdlaBlog.WebAPI.Local.Infrastructure.Data.Repositories
+namespace UdlaBlog.Infrastructure.Repositories
 {
     public class CommentRepository : ICommentRepository
     {
@@ -22,29 +22,38 @@ namespace UdlaBlog.WebAPI.Local.Infrastructure.Data.Repositories
             return await _context.Comments.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Comment>> GetAllByBlogPostIdAsync(Guid blogPostId)
+        public async Task<IEnumerable<Comment>> GetAllByBlogFicaIdAsync(Guid blogFicaId)
         {
-            return await _context.Comments.Where(c => c.BlogPostId == blogPostId).ToListAsync();
+            return await _context.Comments
+                .Where(c => c.BlogFicaId == blogFicaId)
+                .ToListAsync();
         }
 
-        public async Task AddAsync(Comment comment)
+        public async Task<IEnumerable<Comment>> GetAllByBlogNodoIdAsync(Guid blogNodoId)
         {
-            await _context.Comments.AddAsync(comment);
+            return await _context.Comments
+                .Where(c => c.BlogNodoId == blogNodoId)
+                .ToListAsync();
+        }
+
+        public async Task AddAsync(Comment entity)
+        {
+            await _context.Comments.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Comment comment)
+        public async Task UpdateAsync(Comment entity)
         {
-            _context.Comments.Update(comment);
+            _context.Comments.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var comment = await _context.Comments.FindAsync(id);
-            if (comment != null)
+            var entity = await _context.Comments.FindAsync(id);
+            if (entity != null)
             {
-                _context.Comments.Remove(comment);
+                _context.Comments.Remove(entity);
                 await _context.SaveChangesAsync();
             }
         }

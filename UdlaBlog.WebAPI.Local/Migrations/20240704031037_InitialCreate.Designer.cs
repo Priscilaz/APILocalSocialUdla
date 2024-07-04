@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using UdlaBlog.WebAPI.Local.Infrastructure.Data.Context;
+using UdlaBlog.Infrastructure.Data;
 
 #nullable disable
 
 namespace UdlaBlog.WebAPI.Local.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240702125443_InitialCreate")]
+    [Migration("20240704031037_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace UdlaBlog.WebAPI.Local.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BlogPost", b =>
+            modelBuilder.Entity("UdlaBlog.Domain.Entities.BlogFica", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,17 +50,46 @@ namespace UdlaBlog.WebAPI.Local.Migrations
                     b.Property<DateTime>("FechaPublicacion")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("ManejadorUrl")
+                    b.Property<string>("TituloPagina")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RutaImagen")
+                    b.Property<string>("UrlImagenDestacada")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Section")
+                    b.Property<bool>("Visible")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BlogFicas");
+                });
+
+            modelBuilder.Entity("UdlaBlog.Domain.Entities.BlogNodo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Autor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Contenido")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DescripcionCorta")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Encabezado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaPublicacion")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TituloPagina")
                         .IsRequired()
@@ -75,31 +104,19 @@ namespace UdlaBlog.WebAPI.Local.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BlogPosts");
+                    b.ToTable("BlogNodos");
                 });
 
-            modelBuilder.Entity("BlogPostTag", b =>
-                {
-                    b.Property<Guid>("BlogPostsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TagsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("BlogPostsId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("BlogPostTag");
-                });
-
-            modelBuilder.Entity("UdlaBlog.WebAPI.Local.Domain.Models.Comment", b =>
+            modelBuilder.Entity("UdlaBlog.Domain.Entities.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BlogPostId")
+                    b.Property<Guid?>("BlogFicaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("BlogNodoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Contenido")
@@ -111,15 +128,23 @@ namespace UdlaBlog.WebAPI.Local.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BlogPostId");
+                    b.HasIndex("BlogFicaId");
+
+                    b.HasIndex("BlogNodoId");
 
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("UdlaBlog.WebAPI.Local.Domain.Models.Tag", b =>
+            modelBuilder.Entity("UdlaBlog.Domain.Entities.Tag", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("BlogFicaId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("BlogNodoId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("DisplayNombre")
@@ -132,10 +157,14 @@ namespace UdlaBlog.WebAPI.Local.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BlogFicaId");
+
+                    b.HasIndex("BlogNodoId");
+
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("UdlaBlog.WebAPI.Local.Domain.Models.User", b =>
+            modelBuilder.Entity("UdlaBlog.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(450)");
@@ -161,35 +190,44 @@ namespace UdlaBlog.WebAPI.Local.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BlogPostTag", b =>
+            modelBuilder.Entity("UdlaBlog.Domain.Entities.Comment", b =>
                 {
-                    b.HasOne("BlogPost", null)
-                        .WithMany()
-                        .HasForeignKey("BlogPostsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("UdlaBlog.WebAPI.Local.Domain.Models.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("UdlaBlog.WebAPI.Local.Domain.Models.Comment", b =>
-                {
-                    b.HasOne("BlogPost", "BlogPost")
+                    b.HasOne("UdlaBlog.Domain.Entities.BlogFica", "BlogFica")
                         .WithMany("Comments")
-                        .HasForeignKey("BlogPostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BlogFicaId");
 
-                    b.Navigation("BlogPost");
+                    b.HasOne("UdlaBlog.Domain.Entities.BlogNodo", "BlogNodo")
+                        .WithMany("Comments")
+                        .HasForeignKey("BlogNodoId");
+
+                    b.Navigation("BlogFica");
+
+                    b.Navigation("BlogNodo");
                 });
 
-            modelBuilder.Entity("BlogPost", b =>
+            modelBuilder.Entity("UdlaBlog.Domain.Entities.Tag", b =>
+                {
+                    b.HasOne("UdlaBlog.Domain.Entities.BlogFica", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("BlogFicaId");
+
+                    b.HasOne("UdlaBlog.Domain.Entities.BlogNodo", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("BlogNodoId");
+                });
+
+            modelBuilder.Entity("UdlaBlog.Domain.Entities.BlogFica", b =>
                 {
                     b.Navigation("Comments");
+
+                    b.Navigation("Tags");
+                });
+
+            modelBuilder.Entity("UdlaBlog.Domain.Entities.BlogNodo", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Tags");
                 });
 #pragma warning restore 612, 618
         }

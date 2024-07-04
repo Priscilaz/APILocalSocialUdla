@@ -1,21 +1,20 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UdlaBlog.WebAPI.Local.Domain.Models
+namespace UdlaBlog.Domain.Entities
 {
     public class Comment
     {
+        [Key]
         public Guid Id { get; set; }
-
-        [Required]
         public string Contenido { get; set; }
 
-        [Required]
         public DateTime Fecha { get; set; }
 
-        [Required]
-        public Guid BlogPostId { get; set; }
+        public Guid? BlogFicaId { get; set; }
+        public BlogFica BlogFica { get; set; }
 
-        public BlogPost BlogPost { get; set; }
+        public Guid? BlogNodoId { get; set; }
+        public BlogNodo BlogNodo { get; set; }
     }
 }

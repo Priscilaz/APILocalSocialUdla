@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using UdlaBlog.WebAPI.Local.Domain.Interfaces;
-using UdlaBlog.WebAPI.Local.Domain.Models;
-using UdlaBlog.WebAPI.Local.Infrastructure.Data.Context;
+using UdlaBlog.Domain.Entities;
+using UdlaBlog.Domain.Interfaces;
+using UdlaBlog.Infrastructure.Data;
 
-namespace UdlaBlog.WebAPI.Local.Infrastructure.Data.Repositories
+namespace UdlaBlog.Infrastructure.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -18,7 +18,7 @@ namespace UdlaBlog.WebAPI.Local.Infrastructure.Data.Repositories
 
         public async Task<User> GetByUsernameAsync(string username)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            return await _context.Users.FindAsync(username);
         }
 
         public async Task<IEnumerable<User>> GetAllAsync()
@@ -26,24 +26,24 @@ namespace UdlaBlog.WebAPI.Local.Infrastructure.Data.Repositories
             return await _context.Users.ToListAsync();
         }
 
-        public async Task AddAsync(User user)
+        public async Task AddAsync(User entity)
         {
-            await _context.Users.AddAsync(user);
+            await _context.Users.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(User user)
+        public async Task UpdateAsync(User entity)
         {
-            _context.Users.Update(user);
+            _context.Users.Update(entity);
             await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(string username)
         {
-            var user = await _context.Users.FindAsync(username);
-            if (user != null)
+            var entity = await _context.Users.FindAsync(username);
+            if (entity != null)
             {
-                _context.Users.Remove(user);
+                _context.Users.Remove(entity);
                 await _context.SaveChangesAsync();
             }
         }

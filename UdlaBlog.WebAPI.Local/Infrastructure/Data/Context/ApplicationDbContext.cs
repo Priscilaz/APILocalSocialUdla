@@ -1,34 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UdlaBlog.WebAPI.Local.Domain.Models;
+using UdlaBlog.Domain.Entities;
 
-namespace UdlaBlog.WebAPI.Local.Infrastructure.Data.Context
+namespace UdlaBlog.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<BlogPost> BlogPosts { get; set; }
+        public DbSet<BlogFica> BlogFicas { get; set; }
+        public DbSet<BlogNodo> BlogNodos { get; set; }
         public DbSet<Tag> Tags { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<BlogPost>()
-                .HasMany(b => b.Tags)
-                .WithMany(t => t.BlogPosts);
-
-            modelBuilder.Entity<BlogPost>()
-                .HasMany(b => b.Comments)
-                .WithOne(c => c.BlogPost)
-                .HasForeignKey(c => c.BlogPostId);
-
-            modelBuilder.Entity<User>().HasKey(u => u.Username);
+            // Configuraciones adicionales si es necesario
         }
     }
 }

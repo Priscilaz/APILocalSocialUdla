@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace UdlaBlog.WebAPI.Local.DTOs
+namespace UdlaBlog.Application.DTOs
 {
     public class TagDto
     {

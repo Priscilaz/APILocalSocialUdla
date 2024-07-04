@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace UdlaBlog.WebAPI.Local.Domain.Models
+namespace UdlaBlog.Domain.Entities
 {
     public class Tag
     {
+        [Key]
         public Guid Id { get; set; }
 
         [Required]
@@ -13,7 +13,5 @@ namespace UdlaBlog.WebAPI.Local.Domain.Models
 
         [Required]
         public string DisplayNombre { get; set; }
-
-        public ICollection<BlogPost> BlogPosts { get; set; } = new List<BlogPost>();
     }
 }
