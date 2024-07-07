@@ -43,7 +43,7 @@ public class UserController : ControllerBase
             Password = userDto.Password,
             Nombres = userDto.Nombres,
             Apellidos = userDto.Apellidos,
-            NumeroTelefono = userDto.NumeroTelefono
+            CorreoElectronico = userDto.CorreoElectronico
         };
 
         await _userRepository.AddAsync(user);
@@ -64,7 +64,7 @@ public class UserController : ControllerBase
             Password = userDto.Password,
             Nombres = userDto.Nombres,
             Apellidos = userDto.Apellidos,
-            NumeroTelefono = userDto.NumeroTelefono
+            CorreoElectronico = userDto.CorreoElectronico
         };
 
         await _userRepository.UpdateAsync(user);

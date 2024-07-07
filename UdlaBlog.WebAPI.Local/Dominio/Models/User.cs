@@ -17,6 +17,6 @@ namespace UdlaBlog.Domain.Entities
         public string Apellidos { get; set; }
 
         [Required]
-        public string NumeroTelefono { get; set; }
+        public string CorreoElectronico { get; set; }
     }
 }

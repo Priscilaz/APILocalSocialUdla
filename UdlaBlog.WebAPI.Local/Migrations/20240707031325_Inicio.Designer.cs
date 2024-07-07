@@ -12,8 +12,8 @@ using UdlaBlog.Infrastructure.Data;
 namespace UdlaBlog.WebAPI.Local.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240704031037_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240707031325_Inicio")]
+    partial class Inicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -173,11 +173,11 @@ namespace UdlaBlog.WebAPI.Local.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nombres")
+                    b.Property<string>("CorreoElectronico")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NumeroTelefono")
+                    b.Property<string>("Nombres")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

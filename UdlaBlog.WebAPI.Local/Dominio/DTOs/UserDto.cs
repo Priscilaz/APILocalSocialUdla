@@ -17,6 +17,6 @@ namespace UdlaBlog.Application.DTOs
         public string Apellidos { get; set; }
 
         [Required]
-        public string NumeroTelefono { get; set; }
+        public string CorreoElectronico { get; set; }
     }
 }
